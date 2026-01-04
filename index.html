@@ -36,6 +36,7 @@
     img {
       max-width: 100%;
       display: block;
+      cursor: pointer;
     }
 
     a {
@@ -108,8 +109,31 @@
       margin-top: 2rem;
     }
 
-    .gallery img {
-      background: var(--shadow-grey);
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      cursor: default;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2rem;
+      color: var(--text-light);
+      cursor: pointer;
     }
 
     /* CARDS */
@@ -181,14 +205,14 @@
       </p>
 
       <div class="gallery">
-        <img src="img/tEETH.jpeg" alt="Artwork Teeth">
-        <img src="img/IMG_3019.jpeg" alt="Artwork 1">
-        <img src="img/IMG_3332.png" alt="Artwork 2">
-        <img src="img/IMG_3357.jpeg" alt="Artwork 3">
-        <img src="img/IMG_3473.jpeg" alt="Artwork 4">
-        <img src="img/IMG_3794.png" alt="Artwork 5">
-        <img src="img/IMG_3795.png" alt="Artwork 6">
-        <img src="img/IMG_9996.jpeg" alt="Artwork 7">
+        <img src="img/tEETH.jpeg" alt="Artwork Teeth" class="lightbox-trigger">
+        <img src="img/IMG_3019.jpeg" alt="Artwork 1" class="lightbox-trigger">
+        <img src="img/IMG_3332.png" alt="Artwork 2" class="lightbox-trigger">
+        <img src="img/IMG_3357.jpeg" alt="Artwork 3" class="lightbox-trigger">
+        <img src="img/IMG_3473.jpeg" alt="Artwork 4" class="lightbox-trigger">
+        <img src="img/IMG_3794.png" alt="Artwork 5" class="lightbox-trigger">
+        <img src="img/IMG_3795.png" alt="Artwork 6" class="lightbox-trigger">
+        <img src="img/IMG_9996.jpeg" alt="Artwork 7" class="lightbox-trigger">
       </div>
     </div>
   </section>
@@ -218,38 +242,43 @@
         </div>
       </div>
 
-      <!-- Εδώ θα μπει το embedded Stripe link -->
       <a href="https://buy.stripe.com/00wdR94pV1U54bH4cj6c001" class="btn">Buy the Zine</a>
     </div>
   </section>
-
-  <!-- MERCH -->
-  <section>
-    <div class="container">
-      <h2>Merch</h2>
-      <p>
-        Wearable and printable extensions of the Zine world.
-      </p>
-
-      <div class="cards">
-        <div class="card">
-          <h3>T-Shirts</h3>
-          <p>Limited pieces adapted from selected artworks.</p>
-        </div>
-
-        <div class="card">
-          <h3>Posters</h3>
-          <p>High-quality prints of experimental compositions.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
 
   <!-- FOOTER -->
   <footer>
     © 2026 — expotradi Zine Project
   </footer>
+
+  <!-- LIGHTBOX HTML -->
+  <div id="lightbox" class="lightbox">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <!-- LIGHTBOX SCRIPT -->
+  <script>
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const triggers = document.querySelectorAll(".lightbox-trigger");
+    const closeBtn = document.querySelector(".lightbox-close");
+
+    triggers.forEach(img => {
+      img.addEventListener("click", () => {
+        lightboxImg.src = img.src;
+        lightbox.style.display = "flex";
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.style.display = "none";
+      lightboxImg.src = "";
+    }
+
+    lightbox.addEventListener("click", closeLightbox);
+    closeBtn.addEventListener("click", closeLightbox);
+  </script>
 
 </body>
 </html>
